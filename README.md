@@ -11,5 +11,5 @@ composer require aw-studio/macrame-partials
 Add partials to **admin** app:
 
 ```shell
-php artisan make:partials admin
+php artisan make:partials
 ```
