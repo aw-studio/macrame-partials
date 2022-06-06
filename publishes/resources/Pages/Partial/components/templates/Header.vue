@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Input } from "@macramejs/admin-vue3";
-import { PartialForm } from "@admin/types/forms";
-import { PropType } from "vue";
-import SelectImage from "@admin/Pages/Page/components/content/sections/components/SelectImage.vue";
+import { Input } from '@macramejs/admin-vue3';
+import { PartialForm } from '@admin/types/forms';
+import { PropType } from 'vue';
+import SelectImage from '@admin/modules/content/sections/components/SelectImage.vue';
 
 const props = defineProps({
     form: {
