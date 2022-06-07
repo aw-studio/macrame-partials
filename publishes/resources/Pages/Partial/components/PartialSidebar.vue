@@ -1,9 +1,9 @@
 <template>
     <SidebarSecondary>
         <template v-slot:header>
-            <div class="flex items-center justify-between w-full">
-                <span class="inline-block text-xl font-medium"> Bereiche </span>
-            </div>
+            <SidebarSecondaryHeader title="Bereiche">
+                <!-- // -->
+            </SidebarSecondaryHeader>
         </template>
         <template v-slot:default>
             <SidebarSecondarySection>
@@ -27,6 +27,7 @@ import { PartialCollectionResource } from '@admin/types/resources';
 import {
     SidebarSecondary,
     SidebarSecondarySection,
+    SidebarSecondaryHeader,
     SidebarLink,
 } from '@macramejs/admin-vue3';
 import { PropType } from 'vue';
