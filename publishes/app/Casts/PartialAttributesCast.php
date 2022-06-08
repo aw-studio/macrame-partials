@@ -22,19 +22,20 @@ class PartialAttributesCast extends ContentCast
         }
 
         $this->items = match ($this->model->template) {
-            'default' => $this->defaultTemplate($this->items),
-            default   => $this->items
+            'header' => $this->headerTemplate($this->items),
+            default  => $this->items
         };
 
         return $this;
     }
 
-    public function defaultTemplate(array $items)
+    public function headerTemplate(array $items)
     {
-        $header = array_key_exists('header', $items) ? $items['header'] : null;
+        $header = array_key_exists('header_image', $items) ? $items['header_image'] : null;
+
         if ($header) {
             $image = File::query()
-                ->where('id', $items['header']['id'] ?? null)
+                ->where('id', $items['header_image']['id'] ?? null)
                 ->first();
 
             $image = new Image(
@@ -46,7 +47,7 @@ class PartialAttributesCast extends ContentCast
 
         return [
             ...$items,
-            'header' => $header ? (new ImageResource($image))->toArray(request()) : null,
+            'header_image' => $header ? (new ImageResource($image))->toArray(request()) : null,
         ];
     }
 }

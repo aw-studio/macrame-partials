@@ -51,6 +51,7 @@ class MakePartialsCommand extends Command
     {
         $this->makeAppFiles();
         $this->makeResourcesFiles();
+        $this->addToInertiaMiddleware();
 
         return 0;
     }
@@ -182,9 +183,28 @@ sidebarLinks.push({
         );
     }
 
+    protected function addToInertiaMiddleware()
+    {
+        $path = app_path('Http/Middleware/HandleInertiaRequests.php');
+        $insert = '
+        "partials" => Partial::all()->mapWithKeys(function ($item) {
+            return [$item["template"] => $item->attributes->parse()];
+        }),
+        ';
+        $after = 'parent::share($request), [';
+
+        $this->insertAfter($path, $insert, $after);
+
+        $insert = '
+use App\Models\Partial;';
+        $after = 'use Inertia\Middleware;';
+
+        $this->insertAfter($path, $insert, $after);
+    }
+
     protected function publishPath($path)
     {
-        return __DIR__ . '/../../publishes/' . $path;
+        return __DIR__.'/../../publishes/'.$path;
     }
 
     /**
@@ -242,7 +262,7 @@ sidebarLinks.push({
         if (str_contains($content, $insert)) {
             return;
         }
-        $content = Str::replaceFirst($after, $after . PHP_EOL . $insert, $content);
+        $content = Str::replaceFirst($after, $after.PHP_EOL.$insert, $content);
 
         $this->files->put($path, $content);
 
@@ -257,7 +277,7 @@ sidebarLinks.push({
             return;
         }
 
-        $content = Str::replaceFirst($before, $insert . PHP_EOL . $before, $content);
+        $content = Str::replaceFirst($before, $insert.PHP_EOL.$before, $content);
 
         $this->files->put($path, $content);
 
